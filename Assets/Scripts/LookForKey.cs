@@ -83,6 +83,8 @@ public class LookForKey : MonoBehaviour
         player.blockInput = false;
 
         Destroy(gameObject);
+
+        ghostGO.GetComponent<GhostMovement>().TriggerStartGhostMovement();
         
 
        
