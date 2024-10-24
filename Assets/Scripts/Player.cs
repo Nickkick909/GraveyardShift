@@ -11,10 +11,15 @@ public class Player : MonoBehaviour
     [SerializeField] private float jumpHeight = 1.0f;
     [SerializeField] private float gravityValue = -9.81f;
     [SerializeField] private Vector3 startPosition;
+    [SerializeField] private CameraLook cameraLook;
+
+    public bool blockInput = true;
+    public bool blockJump = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        blockInput = true;
         //controller = gameObject.AddComponent<CharacterController>();
         //transform.position = startPosition;
     }
@@ -22,7 +27,11 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        HandleMovement();
+        if (!blockInput)
+            HandleMovement();
+
+        // Keep the camera block input in sync with the player so we only have to toggle it on the player object
+        cameraLook.blockInput = blockInput;
     }
 
     void HandleMovement()
@@ -39,7 +48,7 @@ public class Player : MonoBehaviour
         Vector3 move = (transform.right * x) + (transform.forward * y);
         controller.Move(playerSpeed * Time.deltaTime * move);
 
-        if (Input.GetButtonDown("Jump") && groundedPlayer)
+        if (Input.GetButtonDown("Jump") && groundedPlayer && !blockJump)
         {
             playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
         }
