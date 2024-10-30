@@ -50,6 +50,7 @@ public class StartGame : MonoBehaviour
                 introText.SetActive(false);
 
                 player.blockInput = false;
+                player.blockLook = false;
 
                 yield return null;
             }
@@ -57,6 +58,6 @@ public class StartGame : MonoBehaviour
             yield return null;
         }
         
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }

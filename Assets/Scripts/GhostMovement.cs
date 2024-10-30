@@ -41,7 +41,7 @@ public class GhostMovement : MonoBehaviour
             while (transform.position != pathPoints[pointIndex].position)
             {
                 transform.position = Vector3.MoveTowards(transform.position, pathPoints[pointIndex].position, moveSpeed * Time.deltaTime);
-                yield return null;
+                yield return new WaitForEndOfFrame();
             }
 
         }

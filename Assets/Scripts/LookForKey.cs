@@ -50,12 +50,17 @@ public class LookForKey : MonoBehaviour
 
             if (i == 2)
             {
+                player.DisableFlashLight();
                 ghostScareSfx.SetActive(true);
                 lookForKeyText.fontSize += 100;
                 ghostGO.SetActive(true);
                 
-                Camera.main.transform.LookAt(ghostGO.transform);
+                
 
+                player.transform.LookAt(ghostGO.transform.position);
+                player.transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y, 0);
+
+                Camera.main.transform.LookAt(ghostGO.transform);
 
             }
             else if (i == 3)
@@ -82,6 +87,7 @@ public class LookForKey : MonoBehaviour
         lookForKeyText.gameObject.SetActive(false);
         player.blockInput = false;
 
+        player.EnableFlashLight();
         Destroy(gameObject);
 
         ghostGO.GetComponent<GhostMovement>().TriggerStartGhostMovement();

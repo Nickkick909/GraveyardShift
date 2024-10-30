@@ -1,8 +1,10 @@
+using System.Collections;
 using UnityEngine;
 
 public class OpenGate : MonoBehaviour
 {
     [SerializeField] Animator gateAnimator;
+    [SerializeField] GameObject enjoyMusic;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -28,8 +30,17 @@ public class OpenGate : MonoBehaviour
             else if (gameObject.tag == "CloseGate")
             {
                 gateAnimator.SetTrigger("CloseGate");
-                Destroy(gameObject);
+                enjoyMusic.SetActive(true);
+                StartCoroutine(DisableAnimatorAfterDelay());
+                
             }
         }
+    }
+
+    IEnumerator DisableAnimatorAfterDelay()
+    {
+        yield return new WaitForSeconds(2);
+        gateAnimator.enabled = false;
+        Destroy(gameObject);
     }
 }

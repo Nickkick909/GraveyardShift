@@ -13,8 +13,11 @@ public class Player : MonoBehaviour
     [SerializeField] private Vector3 startPosition;
     [SerializeField] private CameraLook cameraLook;
 
+    [SerializeField] GameObject flashLight;
+
     public bool blockInput = true;
     public bool blockJump = false;
+    public bool blockLook = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -31,7 +34,11 @@ public class Player : MonoBehaviour
             HandleMovement();
 
         // Keep the camera block input in sync with the player so we only have to toggle it on the player object
-        cameraLook.blockInput = blockInput;
+        if (cameraLook.blockInput !=  blockLook)
+        {
+            cameraLook.blockInput = blockLook;
+        }
+       
     }
 
     void HandleMovement()
@@ -53,8 +60,27 @@ public class Player : MonoBehaviour
             playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
         }
 
-        playerVelocity.y += gravityValue * Time.deltaTime;
+        if (!groundedPlayer)
+        {
+            playerVelocity.y += gravityValue * Time.deltaTime;
+        }
+
+        
         controller.Move(playerVelocity * Time.deltaTime);
     }
 
+    public void DisableFlashLight()
+    {
+        flashLight.SetActive(false);
+    }
+
+    public void EnableFlashLight()
+    {
+        flashLight.SetActive(true);
+    }
+
+    public void SetMovementSpeed(float speed)
+    {
+        playerSpeed = speed;
+    }
 }
