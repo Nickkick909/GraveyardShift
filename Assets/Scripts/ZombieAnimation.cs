@@ -140,33 +140,12 @@ public class ZombieAnimation : MonoBehaviour
         if (other.gameObject.CompareTag(("Player")))
         {
             // Player dies!!
-            other.gameObject.transform.LookAt(transform);
-            player.transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y, 0);
-
-            storyText.text = "You were killed by Greg that zombie...\n\nPress Space to play again.";
-            storyText.gameObject.SetActive(true);
+            player.Die("Greg the Zombie", transform);
 
             stopFollowingPlayer = true;
 
-            player.blockInput = true;
-            player.blockLook = true;
-
-            StartCoroutine(WaitToRestartGame());
         }
     }
 
-    IEnumerator WaitToRestartGame()
-    {
-        while (true)
-        {
-            if (Input.GetKey(KeyCode.Space))
-            {
-                break;
-            }
 
-            yield return new WaitForEndOfFrame();
-        }
-
-        SceneManager.LoadScene(0);
-    }
 }

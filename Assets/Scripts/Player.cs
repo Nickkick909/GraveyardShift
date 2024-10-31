@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -18,6 +20,8 @@ public class Player : MonoBehaviour
     public bool blockInput = true;
     public bool blockJump = false;
     public bool blockLook = true;
+
+    [SerializeField] TMP_Text storyText;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -82,5 +86,36 @@ public class Player : MonoBehaviour
     public void SetMovementSpeed(float speed)
     {
         playerSpeed = speed;
+    }
+
+    public void Die(string killer, Transform killerLocation)
+    {
+        transform.LookAt(killerLocation);
+        transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+
+        blockInput = true;
+        blockLook = true;
+
+
+        storyText.text = "You were killed by " + killer + "...\n\nPress Space to play again.";
+        storyText.gameObject.SetActive(true);
+
+
+        StartCoroutine(WaitToRestartGame());
+    }
+
+    IEnumerator WaitToRestartGame()
+    {
+        while (true)
+        {
+            if (Input.GetKey(KeyCode.Space))
+            {
+                break;
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        SceneManager.LoadScene(0);
     }
 }
