@@ -28,6 +28,8 @@ public class TriggerTextPrompts : MonoBehaviour
 
     [SerializeField] Transform newGhostSpawn;
 
+    [SerializeField] bool hideGhostAfter;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -118,6 +120,11 @@ public class TriggerTextPrompts : MonoBehaviour
         if (spawnNextTrigger)
         {
             nextTrigger.SetActive(true);
+        }
+
+        if (hideGhostAfter)
+        {
+            ghostGO.SetActive(false);
         }
 
         Destroy(gameObject);

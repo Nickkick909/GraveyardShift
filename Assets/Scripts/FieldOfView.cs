@@ -21,6 +21,8 @@ public class FieldOfView : MonoBehaviour
     [SerializeField] bool isChasing = false;
     bool hasKilledPlayer = false;
 
+    [SerializeField] RotateOver rotateScript;
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -58,13 +60,25 @@ public class FieldOfView : MonoBehaviour
                     visibleTargets.Add(target);
 
                     MoveToTarget(target);
+                    if (rotateScript.enabled == true)
+                    {
+                        rotateScript.enabled = false;
+                    }
                 } else
                 {
                     animator.SetBool("IsWalking", false);
+                    if (rotateScript.enabled == false)
+                    {
+                        rotateScript.enabled = true;
+                    }
                 }
             } else
             {
                 animator.SetBool("IsWalking", false);
+                if (rotateScript.enabled == false)
+                {
+                    rotateScript.enabled = true;
+                }
             }
         }
     }
