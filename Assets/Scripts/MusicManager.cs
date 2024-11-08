@@ -11,6 +11,7 @@ public class MusicManager : MonoBehaviour
 
     [SerializeField] GameObject enjoyTheMusicText;
     [SerializeField] GameObject officeDoorTrigger;
+    [SerializeField] GameObject lookForKeyTrigger;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -39,19 +40,23 @@ public class MusicManager : MonoBehaviour
         yield return new WaitForSeconds(105);
         Debug.Log("Stop music");
         ambientNoise.SetActive(true);
-        player.SetMovementSpeed(3.5f);
+        player.SetMovementSpeed(3f);
 
         musicAudioSource.Stop();
 
         enjoyTheMusicText.SetActive(false);
         officeDoorTrigger.SetActive(true);
+        lookForKeyTrigger.SetActive(true);
     }
 
     public void PlayNewSong(AudioClip newSong)
     {
         ambientNoise.SetActive(false);
-        musicAudioSource.PlayOneShot(newSong);
-        StartCoroutine(ReturnToAmbient());
+        
+        musicAudioSource.resource = newSong;
+        musicAudioSource.Play();
+        musicAudioSource.gameObject.SetActive(true);
+        //StartCoroutine(ReturnToAmbient());
     }
 
     IEnumerator ReturnToAmbient()

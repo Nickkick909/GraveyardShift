@@ -58,7 +58,7 @@ public class FieldOfView : MonoBehaviour
                 if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
                 {
                     visibleTargets.Add(target);
-
+                    target.GetComponent<Player>().playerInDanger = true;
                     MoveToTarget(target);
                     if (rotateScript.enabled == true)
                     {
@@ -66,6 +66,7 @@ public class FieldOfView : MonoBehaviour
                     }
                 } else
                 {
+                    target.GetComponent<Player>().playerInDanger = false;
                     animator.SetBool("IsWalking", false);
                     if (rotateScript.enabled == false)
                     {
@@ -74,6 +75,7 @@ public class FieldOfView : MonoBehaviour
                 }
             } else
             {
+                target.GetComponent<Player>().playerInDanger = false;
                 animator.SetBool("IsWalking", false);
                 if (rotateScript.enabled == false)
                 {

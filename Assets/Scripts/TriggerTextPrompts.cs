@@ -29,6 +29,9 @@ public class TriggerTextPrompts : MonoBehaviour
     [SerializeField] Transform newGhostSpawn;
 
     [SerializeField] bool hideGhostAfter;
+    public bool finishedTextPrompts;
+
+    [SerializeField] bool destroyAfterFinished = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -49,7 +52,7 @@ public class TriggerTextPrompts : MonoBehaviour
             storyText.gameObject.SetActive(true);
 
 
-            Player player = other.gameObject.GetComponent<Player>();
+            Player player = FindAnyObjectByType<Player>();
             player.blockInput = true;
 
 
@@ -70,11 +73,9 @@ public class TriggerTextPrompts : MonoBehaviour
         {
             ghostGO.transform.LookAt(player.transform);
             //Camera.main.transform.LookAt(ghostGO.transform);
-            Debug.Log("Player current y: " +  player.transform.rotation.y);
             player.transform.LookAt(ghostGO.transform.position);
             player.transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y, 0);
             Camera.main.transform.localRotation = Quaternion.identity;
-            Debug.Log("Player new y: " + player.transform.rotation.y);
         }
 
 
@@ -127,7 +128,10 @@ public class TriggerTextPrompts : MonoBehaviour
             ghostGO.SetActive(false);
         }
 
-        Destroy(gameObject);
+        finishedTextPrompts = true;
+
+        if (destroyAfterFinished)
+            Destroy(gameObject);
     }
 
 }

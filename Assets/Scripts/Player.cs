@@ -23,6 +23,9 @@ public class Player : MonoBehaviour
 
     [SerializeField] TMP_Text storyText;
 
+    public bool playerInDanger;
+    [SerializeField] AudioSource dangerSFX;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -45,6 +48,18 @@ public class Player : MonoBehaviour
        
     }
 
+    private void Update()
+    {
+        if (playerInDanger)
+        {
+            dangerSFX.enabled = true;
+        }
+        else
+        {
+            dangerSFX.enabled = false;
+        }
+    }
+
     void HandleMovement()
     {
         groundedPlayer = controller.isGrounded;
@@ -59,17 +74,17 @@ public class Player : MonoBehaviour
         Vector3 move = (transform.right * x) + (transform.forward * y);
         controller.Move(playerSpeed * Time.deltaTime * move);
 
-        if (Input.GetButtonDown("Jump") && groundedPlayer && !blockJump)
-        {
-            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
-        }
+        //if (Input.GetButtonDown("Jump") && groundedPlayer && !blockJump)
+        //{
+        //    playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+        //}
 
         if (!groundedPlayer)
         {
             playerVelocity.y += gravityValue * Time.deltaTime;
         }
 
-        
+
         controller.Move(playerVelocity * Time.deltaTime);
     }
 
@@ -90,6 +105,7 @@ public class Player : MonoBehaviour
 
     public void Die(string killer, Transform killerLocation)
     {
+        Cursor.lockState = CursorLockMode.None;
         transform.LookAt(killerLocation);
         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
 

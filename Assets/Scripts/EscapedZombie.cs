@@ -11,9 +11,12 @@ public class EscapedZombie : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Player player = FindAnyObjectByType<Player>();
+        player.playerInDanger = false;
+
         ghostAppearAudioSource.PlayOneShot(ghostJumpScare);
 
-        musicManager.PlayNewSong(newSong);
+        //musicManager.PlayNewSong(newSong);
         zombie.GetComponent<ZombieAnimation>().stopFollowingPlayer = true;
         zombie.GetComponent<Animator>().SetBool("Dead", true);
         zombie.GetComponentInChildren<AudioSource>().enabled = false;

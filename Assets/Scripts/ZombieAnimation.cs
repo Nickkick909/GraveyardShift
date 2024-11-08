@@ -55,7 +55,7 @@ public class ZombieAnimation : MonoBehaviour
             if (stopFollowingPlayer == true)
             {
                 walkTowardsTargetPoint = false;
-
+                player.playerInDanger = false;
                 
             } else
             {
@@ -74,7 +74,8 @@ public class ZombieAnimation : MonoBehaviour
 
         } else
         {
-            player.blockInput = false;
+            if (!stopFollowingPlayer)
+                player.blockInput = false;
 
             if (!stopFollowingPlayer)
             {
@@ -91,6 +92,7 @@ public class ZombieAnimation : MonoBehaviour
 
     IEnumerator WaitToReleasePlayer()
     {
+        player.playerInDanger = true;
         ghostGO.SetActive(false);
 
         StartCoroutine(CountdownToReleasePlayer());

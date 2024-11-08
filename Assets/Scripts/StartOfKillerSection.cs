@@ -1,16 +1,30 @@
+using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class StartOfKillerSection : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] Player player;
+    [SerializeField] TMP_Text storyText;
+
+    [TextArea(5, 10)]
+    [SerializeField] string textPrompt;
+
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.CompareTag("Player"))
+        {
+            storyText.text = textPrompt;
+            storyText.gameObject.SetActive(true);
+            player.DisableFlashLight();
+            StartCoroutine(RemoveTextAfterSeconds());
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator RemoveTextAfterSeconds()
     {
-        
+        yield return new WaitForSeconds(3);
+        storyText.text = "";
+        storyText.gameObject.SetActive(false);
     }
 }
